@@ -18,6 +18,10 @@
 
 //***//
 
+// uniform type is used for the data that don't change among the vertices (are uniform)
+ uniform vec3 uColor;
+ uniform vec3 uColor1;
+
 // varying  type is used to make a variable available in both vertex and fragment shader files
 varying vec3 vPosition;
 
@@ -33,9 +37,10 @@ void main() {
 
     float depth = vPosition.x;
 
-    vec3 color1 = vec3(1., 1.0, 1.0);
-    vec3 color2 = vec3(0., .0, 1.0);
+    // vec3 color1 = vec3(1., 1.0, 1.0);
+    // vec3 color2 = vec3(0., .0, 1.0);
 
-    vec3 mixedColor = mix(color1, color2, depth);
+    // vec3 mixedColor = mix(color1, color2, depth);
+    vec3 mixedColor = mix(uColor, uColor1, depth);
     gl_FragColor = vec4(mixedColor, 1.0);
 }

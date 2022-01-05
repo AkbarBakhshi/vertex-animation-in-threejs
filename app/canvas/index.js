@@ -139,6 +139,12 @@ export default class Canvas {
         }
     }
 
+    onMouseMove(event) {
+        if (this.threejs) {
+            this.threejs.onMouseMove(event)
+        }
+    }
+
     update() {
         // console.log('canvas update')
         const elapsedTime = this.clock.getElapsedTime()

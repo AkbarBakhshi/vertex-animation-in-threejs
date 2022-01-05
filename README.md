@@ -1,6 +1,8 @@
 # Quick Start Guide
 
-This repo includes the codes for the video on animating an object vetices in Threejs using custom shaders. The **Starter** branch includes the starter code. Check out the **Final** branch to ge the final codea and the link to the Youtube video.
+This repo includes the codes for the video on animating an object vetices in Threejs using custom shaders. The **Final** branch has the final codea for the Youtube tutorial below:
+
+https://youtu.be/VwSRizyr1pI
 
 Download or clone the project on your local drive. Open Terminal (Command prompt) and navigate to the project folder. Then run ```npm install```. You should see a new folder called **node_modules** in the project folder.
 

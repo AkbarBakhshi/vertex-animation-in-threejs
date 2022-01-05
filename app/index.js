@@ -189,6 +189,14 @@ class App {
         }
     }
 
+    onMouseMove(event) {
+
+        if (this.canvas && this.canvas.onMouseMove) {
+            this.canvas.onMouseMove(event)
+        }
+    }
+
+
     addEventListeners() {
         window.addEventListener('popstate', this.onPopState.bind(this))
 
@@ -201,6 +209,10 @@ class App {
         window.addEventListener('mouseleave', this.onMouseUp.bind(this))
         window.addEventListener('touchend', this.onMouseUp.bind(this))
         window.addEventListener('touchcancel', this.onMouseUp.bind(this))
+
+
+        window.addEventListener('mousemove', this.onMouseMove.bind(this))
+        window.addEventListener('Mousemove', this.onMouseMove.bind(this))
     }
 
     //===========this is when user clicks browser's back button=============

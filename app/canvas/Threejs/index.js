@@ -7,6 +7,8 @@ import fragment from 'shaders/fragment.glsl'
 export default class {
     constructor() {
 
+        this.clock = new THREE.Clock()
+
         this.threejsCanvas = document.querySelector('.threejs__canvas__container')
         this.width = this.threejsCanvas.offsetWidth
         this.height = this.threejsCanvas.offsetHeight
@@ -25,10 +27,27 @@ export default class {
         this.threejsCanvas.appendChild(this.renderer.domElement)
 
         const geometry = new THREE.SphereBufferGeometry(1, 50, 50)
+        // console.log(geometry)
+
+        const count = geometry.attributes.position.count //number of vertices in the geometry
+        const randoms = new Float32Array(count)
+
+        for (let i = 0; i < count; i++) {
+            randoms[i] = Math.random()
+        }
+        // console.log(randoms)
+
+        geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1))
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertex,
-            fragmentShader: fragment
+            fragmentShader: fragment,
+            uniforms: {
+                uTime: { value: 0 },
+                uHoverState: { value: 0 },
+                uColor: { value: new THREE.Color(0x31c48D) },
+                uColor1: { value: new THREE.Color(0x6C63FF) },
+            }
         })
 
         this.object = new THREE.Mesh(geometry, this.material)
@@ -49,8 +68,40 @@ export default class {
         
     }
 
+    onMouseMove(event) {
+
+        this.mouse.x = (event.clientX / this.width) * 2 - 1
+        this.mouse.y = - (event.clientY / this.height) * 2 + 1
+
+        this.raycaster.setFromCamera(this.mouse, this.camera)
+
+        const objects = [this.object]
+        this.intersects = this.raycaster.intersectObjects(objects)
+
+        if (this.intersects.length > 0) {
+            console.log('intersect')
+            gsap.to(this.material.uniforms.uHoverState, {
+                value: 1,
+                ease: 'expo.inOut'
+            })
+        } else {
+            gsap.to(this.material.uniforms.uHoverState, {
+                value: 0,
+                ease: 'expo.inOut'
+            })
+            
+        }
+
+    }
+
     update() {
         this.renderer.render(this.scene, this.camera)
+
+        this.object.rotation.x += 0.01;
+        this.object.rotation.y += 0.01;
+
+        const elapsedTime = this.clock.getElapsedTime()
+        this.material.uniforms.uTime.value = elapsedTime
     }
 
 

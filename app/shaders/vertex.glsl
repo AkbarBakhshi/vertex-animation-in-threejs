@@ -18,6 +18,13 @@
 
 //***//
 
+// uniform type is used for the data that don't change among the vertices (are uniform)
+uniform float uTime;
+uniform float uHoverState;
+
+// attribute type is used for the data that change among the vertices
+attribute float aRandom;
+
 // varying  type is used to make a variable available in both vertex and fragment shader files
 varying vec3 vPosition;
 
@@ -28,8 +35,17 @@ void main() {
 
     //***** https://learnopengl.com/Getting-started/Coordinate-Systems *****//
 
+    vec3 newPos = position;
+
+
+    newPos.x += sin(uTime * aRandom) * uHoverState;
+    newPos.y += cos(uTime * aRandom) * uHoverState;
+    newPos.z += cos(uTime * aRandom) * uHoverState;
+
+
+
     // 1)postion our geometry - coordinates your object begins in.
-    vec4 localPosition = vec4(position, 1.0);
+    vec4 localPosition = vec4(newPos, 1.0);
 
     // 2)transform the local coordinates to world-space coordinates
     vec4 worldPosition = modelMatrix * localPosition;
